@@ -1,16 +1,17 @@
+import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram import Router
-from aiogram.utils import executor
-from config import API_TOKEN
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=API_TOKEN)
+TOKEN = '7582768784:AAEIP9ffLs_mw5LvpT3IQoiJ35zFL1hPOyk'
+
+bot = Bot(token=TOKEN)
 storage = MemoryStorage()
-dp = Dispatcher(storage=storage)
+dp = Dispatcher(bot=bot, storage=storage)
 
 router = Router()
 
@@ -32,5 +33,8 @@ async def send_data(message: types.Message):
 
 dp.include_router(router)
 
+async def main():
+    await dp.start_polling(bot, skip_updates=True)
+
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+    asyncio.run(main())

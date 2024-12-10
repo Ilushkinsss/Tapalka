@@ -9,6 +9,3 @@ class CompletedTask(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     task_id = Column(Integer, ForeignKey('tasks.id'))
-
-    def __repr__(self):
-        return f"<CompletedTask(id={self.id}, user_id={self.user_id}, task_id={self.task_id})>"

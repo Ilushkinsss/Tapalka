@@ -1,6 +1,6 @@
 import psycopg2
 from psycopg2 import sql
-import config
+from db import config
 
 class Database:
     def __init__(self, db_name, user, password, host='localhost', port='5432'):

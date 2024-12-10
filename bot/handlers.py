@@ -1,9 +1,10 @@
 import logging
 import aiohttp
 from aiogram import types
-from config import API_URL
 
 logging.basicConfig(level=logging.INFO)
+
+API_URL = 'http://localhost:8000' #
 
 async def send_welcome(message: types.Message):
     await message.reply("Привет!")
@@ -19,15 +20,19 @@ async def send_help(message: types.Message):
 
 async def get_data(message: types.Message):
     async with aiohttp.ClientSession() as session:
+    try:
         async with session.get(f'{API_URL}/data') as response:
             if response.status == 200:
                 data = await response.json()
                 await message.reply(f"Полученные данные: {data}")
             else:
                 await message.reply("Не удалось получить данные.")
+    except aiohttp.ClientError as e:
+        await message.reply(f"Ошибка подключения к API: {e}")
+
 
 async def send_data(message: types.Message):
-    data_to_send = {"key": "value"}  # Замените на ваши данные
+    data_to_send = {"key": "value"}
     async with aiohttp.ClientSession() as session:
         async with session.post(f'{API_URL}/data', json=data_to_send) as response:
             if response.status == 201:
